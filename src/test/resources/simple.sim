@@ -1,0 +1,5 @@
+use db
+addt t1 "a int, b int"
+addt t2 "a int, b int"
+val "select * from db.t1"
+valreq "select * from t2"
