@@ -1,0 +1,5 @@
+gencase
+loadcase
+st # check load result
+dumpcase SELECT id, pk1, col1, std_ts, sum(col1) OVER (PARTITION BY pk1 ORDER BY std_ts ROWS_RANGE BETWEEN 10s PRECEDING AND CURRENT ROW) as w1_col1_sum, sum(col1) OVER w2 as w2_col1_sum, sum(col1) OVER (PARTITION BY pk1 ORDER BY std_ts ROWS_RANGE BETWEEN 30s PRECEDING AND CURRENT ROW) as w3_col1_sum FROM t1 WINDOW w2 AS (PARTITION BY pk1 ORDER BY std_ts ROWS_RANGE BETWEEN 20s PRECEDING AND CURRENT ROW);
+run 

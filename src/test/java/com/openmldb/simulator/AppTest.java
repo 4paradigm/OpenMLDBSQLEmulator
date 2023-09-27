@@ -52,27 +52,30 @@ public class AppTest {
         }
     }
 
-    @Test
-    public void testSimScripts() throws IOException, CLIException {
-        // read resouces file
+    private void runScript(String script) throws IOException, CLIException {
         App app = new App();
         Shell shell = ShellFactory.createConsoleShell(App.DEFAULT_DB, "test", app);
         app.setShell(shell);
-        BufferedReader reader = asBufferedReader("simple.sim");
-        String scripts = CharStreams.toString(reader);
-        String[] lines = scripts.split("\n");
-        for (String line : lines) {
+        BufferedReader reader = asBufferedReader(script);
+        String line = null;
+        while ((line = reader.readLine()) != null) {
             if (line.startsWith("#")) {
                 continue;
             }
-            System.out.println("executing: " + line);
+            System.out.println("test executing: " + line);
             shell.processLine(line);
         }
     }
 
     @Test
+    public void testSimScripts() throws IOException, CLIException {
+        runScript("simple.sim");
+        runScript("case.sim");
+    }
+
+    @Test
     public void testYamlCases() throws SQLException, IOException {
         App app = new App();
-        app.run(com.google.common.io.Resources.getResource("simple.yaml").getFile());
+        app.run(com.google.common.io.Resources.getResource("case.yaml").getFile());
     }
 }

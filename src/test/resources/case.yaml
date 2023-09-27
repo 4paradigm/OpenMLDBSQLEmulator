@@ -13,6 +13,7 @@ cases:
       WINDOW w2 AS (PARTITION BY pk1 ORDER BY std_ts ROWS_RANGE BETWEEN 20s PRECEDING AND CURRENT ROW);
     inputs:
       - name: t1
+        # use columns&indexs pair is better than schema
         schema: id:int, pk1:string, col1:int32, std_ts:timestamp
         index: index2:pk1:std_ts
         data: |
@@ -49,3 +50,29 @@ cases:
         12, A, 7, 1590115480000, 13, 18, 22
         13, A, 8, 1590115490000, 15, 21, 26
         14, A, 9, 1590115500000, 17, 24, 30
+  # ref OpenMLDB/cases/query/simple_query.yaml
+  - id: 8
+    desc: SELECT null列
+    mode: request
+    db: db1
+    sql: select `int16`, `int32`, `int64`, `float`, `double`, `ts`, dt, `string`, id + 1 as newid from t1;
+    standard_sql: false
+    inputs:
+      - name: t1
+        schema: id:int32, int16:int16, int32:int32, int64:int64, float:float, double:double,
+          ts:timestamp, dt:date, string:string
+        index: index:id
+        data: |
+          1, NULL, NULL, NULL, 1.0, 1.0, 1590115420001, 2020-05-20, x
+          2, 1, 1, 1, NULL, NULL, 1590115420002, 2020-05-21, y
+          3, 2, 2, 2, 2.0, 2.0, 1590115420003, NULL, z
+          4, 3, 3, 3, 3.0, 3.0, 1590115420003, 2020-05-22, NULL
+    expect:
+      schema: int16:int16, int32:int32, int64:int64, float:float, double:double,
+        ts:timestamp, dt:date, string:string, newid:int32
+      order: newid
+      data: |
+        NULL, NULL, NULL, 1.0, 1.0, 1590115420001, 2020-05-20, x, 2
+        1, 1, 1, NULL, NULL, 1590115420002, 2020-05-21, y, 3
+        2, 2, 2, 2.0, 2.0, 1590115420003, NULL, z, 4
+        3, 3, 3, 3.0, 3.0, 1590115420003, 2020-05-22, NULL, 5

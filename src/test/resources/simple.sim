@@ -1,5 +1,12 @@
 use db
-addt t1 "a int, b int"
-addt t2 "a int, b int"
-val "select * from db.t1"
-valreq "select * from t2"
+t t1 a int, b int
+t t2 a int, b int
+dt db1 tt1 a int, b int
+val select * from db.t1
+valreq select * from t2
+st
+sql create table t3 (a int, b int)
+genddl select *, count(b) over w1 from t1 window w1 as (partition by a order by b rows between 1 preceding and current row)
+genddl select *, count(b) over w1 from t1 window w1 as (union t2 partition by a order by b rows_range between 1d preceding and current row)
+
+valreq select *, count(b) over w1 from t1 window w1 as (partition by a order by b rows between 1 preceding and current row)

@@ -1,0 +1,32 @@
+# call toydb_run_engine to run this yaml file
+# you can generate yaml cases for reproduction by simulator dump or by yourself
+
+# you can set the global default db
+db: simdb
+cases:
+  - id: 0
+    desc: describe this case
+    # you can set batch mode
+    mode: request
+    db: simdb # you can set default db for case, if not set, use the global default db
+    inputs:
+      - name: t1
+        db: simdb # you can set db for each table, if not set, use the default db(table db > case db > global db)
+        # must set table schema, simulator can't do this
+        columns: ["id int", "pk1 string","col1 int32", "std_ts timestamp"]
+        # gen by simulator, just to init table, not the deployment index
+        indexs: []
+        # must set the data, simulator can't do this
+        data: |
+          1, A, 1, 1590115420000
+          2, B, 1, 1590115420000
+    # query: only support single query, to check the result by `expect`
+    sql: |
+     
+    # optional, you can just check the output, or add your expect
+    # expect:
+    #   schema: id:int, pk1:string, col1:int, std_ts:timestamp, w1_col1_sum:int, w2_col1_sum:int, w3_col1_sum:int
+    #   order: id
+    #   data: |
+    #     1, A, 1, 1590115420000, 1, 1, 1
+    #     2, B, 1, 1590115420000, 1, 1, 1
