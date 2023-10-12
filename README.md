@@ -1,11 +1,8 @@
 # Simulator of OpenMLDB
 
 ## CLI framework
-https://code.google.com/archive/p/cliche/wikis/Manual.wiki github https://github.com/budhash/cliche 
 
-MIT License
-
-https://docs.spring.io/spring-shell/docs/3.1.3/docs/index.html 更丰富，但可以先用简单的cliche，结构上没有太大差别
+We use cliche to be the CLI interface. See https://code.google.com/archive/p/cliche/wikis/Manual.wiki, check the source in https://github.com/budhash/cliche.
 
 ## Build
 
@@ -18,6 +15,16 @@ mvn package -DskipTests
 # with toydb, better to run test
 cp toydb_run_engine src/main/resources
 mvn package
+```
+- [ ] support download toydb_run_engine later
+
+The build way is:
+```
+git clone https://github.com/4paradigm/OpenMLDB.git
+cd OpenMLDB
+make configure
+cd build
+make toydb_run_engine -j<thread> # minimum build
 ```
 
 ## CLI commands
@@ -126,10 +133,6 @@ Each case should have table creations and one sql. We'll run the sql (default mo
 
 You can generate such a yaml file to reproduce a bug, and ask for help.
 
-TODO yaml可保存，但要将表和SQL都转移到真实集群还需要用户手动操作，导出sql（创建库表+上线SQL）可以方便用户导入真实集群。
-
-由于表都有数据，要支持CLI去加表并添加数据，操作挺繁杂的，暂时不支持。也就是，“run in toydb”不能中途增删表，表必须存在于yaml中。但可以中途val sql，如果你想真实run这个sql，dump sql到yaml，然后run in toydb。
-
 ```bash
 # step 1
 gencase
@@ -145,6 +148,4 @@ dumpcase <sql>
 run
 ```
 
-TODO toydb package?
-
-TODO sql log? cmd log? history? can't use arrow in CLI
+Notice: we don't support to add/del table or table data in simulator, you should prepare in yaml file.
