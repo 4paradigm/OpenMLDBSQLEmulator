@@ -1,4 +1,4 @@
-# Simulator of OpenMLDB
+# OpenMLDB SQL Emulator
 
 ## CLI framework
 
@@ -6,17 +6,17 @@ We use cliche to be the CLI interface. See https://code.google.com/archive/p/cli
 
 ## Build
 
-You can build the simulator without toydb(so you can't `run`). But if you want, prepare a toydb package, and put it in `src/main/resources`, then you can `run` in simulator.
+You can build the emulator without toydb(so you can't `run`). But if you want, prepare a toydb package, and put it in `src/main/resources`, then you can `run` in emulator.
 
 ```bash
 # without toydb
 mvn package -DskipTests
 
-# with toydb, better to run test
+# with toydb, we can run sql test with data
 cp toydb_run_engine src/main/resources
 mvn package
 ```
-- [ ] support download toydb_run_engine later
+- [ ] support download toydb_run_engine or emulator jar later
 
 The build way is:
 ```
@@ -45,10 +45,10 @@ There are some quite useful builtin commands.
 !run-script filename reads and executes commands from given file.
 ```
 
-You can run simulator script by `!run-script filename`, and the script file is just a text file with commands in it.
+You can run emulator script by `!run-script filename`, and the script file is just a text file with commands in it.
 e.g.
 ```
-!run-script src/test/resources/simple.sim
+!run-script src/test/resources/simple.emu
 ```
 
 Extra:
@@ -61,7 +61,7 @@ Now we have some commands:
 
 ### creations
 
-Note that if exists, the table will be replaced. Default db is `simdb`.
+Note that if exists, the table will be replaced. Default db is `emudb`.
 
 - `use <db>` use db, create if not exists
 - `addtable <table_name> c1 t1,c2 t2, ...` create/replace table in current db
@@ -138,7 +138,7 @@ You can generate such a yaml file to reproduce a bug, and ask for help.
 gencase
 # step 2 modify the yaml file to add table and data
 
-# step 3 load yaml to get table catalog, then val sql in simulator, or you can skip this step (just write the sql in yaml)
+# step 3 load yaml to get table catalog, then val sql in emulator, or you can skip this step (just write the sql in yaml)
 loadcase
 valreq <sql>
 # dump will rewrite the yaml file, discard the old one, comments will be lost, be careful
@@ -148,4 +148,4 @@ dumpcase <sql>
 run
 ```
 
-Notice: we don't support to add/del table or table data in simulator, you should prepare in yaml file.
+Notice: we don't support to add/del table or table data in emulator, you should prepare in yaml file.

@@ -42,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class App {
-    public static final String DEFAULT_DB = "simdb";
+    public static final String DEFAULT_DB = "emudb";
     private Map<String, Map<String, Schema>> schemaMap = new HashMap<String, Map<String, Schema>>() {
         {
             put(DEFAULT_DB, new HashMap<String, Schema>());
@@ -51,7 +51,7 @@ public class App {
     private String useDB = DEFAULT_DB;
     private Shell shell;
 
-    private String caseYamlPath = "/tmp/sim-case.yaml";
+    private String caseYamlPath = "/tmp/emu-case.yaml";
 
     // logic about toydb binary
     public static final String tempToy = "/tmp/toydb_run_engine";
@@ -89,7 +89,7 @@ public class App {
         useDB = db;
         // don't use Subshells, cuz we should hold only one schemaMap, shouldn't create
         // a new App for handler
-        shell.setPath(Lists.newArrayList(db)); // not a good way? simdb/db1 is better?
+        shell.setPath(Lists.newArrayList(db)); // TODO(hw): 'emudb/db1' is better?
     }
 
     @Command(description = "add table to current db", abbrev = "t")
@@ -342,7 +342,7 @@ public class App {
 
     public static void main(String[] args) throws IOException {
         App app = new App();
-        Shell shell = ShellFactory.createConsoleShell(DEFAULT_DB, "OpenMLDB Simulator", app);
+        Shell shell = ShellFactory.createConsoleShell(DEFAULT_DB, "OpenMLDB SQL Emulator", app);
         app.setShell(shell);
         shell.commandLoop();
     }

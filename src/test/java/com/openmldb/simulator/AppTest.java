@@ -69,8 +69,8 @@ public class AppTest {
 
     @Test
     public void testSimScripts() throws IOException, CLIException {
-        runScript("simple.sim");
-        runScript("case.sim");
+        runScript("simple.emu");
+        runScript("case.emu");
     }
 
     @Test
