@@ -1,4 +1,4 @@
-package com.openmldb.simulator;
+package com.openmldb.emulator;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -166,14 +166,16 @@ public class App {
     public void valbatch(@Param(name = "sql") String... sqlParts) throws SQLException {
         String sql = Joiner.on(" ").join(sqlParts);
         List<String> ret = SqlClusterExecutor.validateSQLInBatch(sql, useDB, schemaMap);
-        Preconditions.checkState(ret.isEmpty(), "validate request failed: " + ret);
+        Preconditions.checkState(ret.isEmpty(), "validate batch failed: " + ret);
+        System.out.println("validate batch success");
     }
 
     @Command(description = "validate sql in request mode") // no need to prepare deployment indexs
     public void valreq(@Param(name = "sql") String... sqlParts) throws SQLException {
         String sql = Joiner.on(" ").join(sqlParts);
         List<String> ret = SqlClusterExecutor.validateSQLInRequest(sql, useDB, schemaMap);
-        Preconditions.checkState(ret.isEmpty(), "validate batch failed: " + ret);
+        Preconditions.checkState(ret.isEmpty(), "validate request failed: " + ret);
+        System.out.println("validate request success");
     }
 
     @Command(description = "run sql in toy db engine, if no file, run cache path")
@@ -328,7 +330,9 @@ public class App {
             // multi indexs is a list
             List<String> indexs = (List<String>) table.get("indexs");
             List<String> cols = (List<String>) table.get("columns");
-            indexs.add("index0:" + cols.get(0).split(" ")[0]);
+            // if user set indexs, use it, if empty, add index0
+            if (indexs.isEmpty())
+                indexs.add("index0:" + cols.get(0).split(" ")[0]);
         }
 
         log.info("dump case: {}", cases);

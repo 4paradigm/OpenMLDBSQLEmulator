@@ -1,5 +1,5 @@
 # call toydb_run_engine to run this yaml file
-# you can generate yaml cases for reproduction by simulator dump or by yourself
+# you can generate yaml cases for reproduction by emulator dump or by yourself
 cases:
   # ref OpenMLDB/cases/query/window_query.yaml
   - id: 12

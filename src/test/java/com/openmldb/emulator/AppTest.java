@@ -1,4 +1,4 @@
-package com.openmldb.simulator;
+package com.openmldb.emulator;
 
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -14,6 +14,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.CharSource;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Resources;
+import com.openmldb.emulator.App;
 
 import asg.cliche.CLIException;
 import asg.cliche.Shell;
@@ -39,7 +40,7 @@ public class AppTest {
         app.adddbtable("d1", "t2", "c1 int");
         app.adddbtable("d2", "t1", "c1 int");
         String show = app.showtables();
-        assertTrue(show, show.equals("simdb={},d1={t1=c1:int32, t2=c1:int32},d2={t1=c1:int32}"));
+        assertTrue(show, show.equals("emudb={},d1={t1=c1:int32, t2=c1:int32},d2={t1=c1:int32}"));
     }
 
     public static BufferedReader asBufferedReader(String resource) {
