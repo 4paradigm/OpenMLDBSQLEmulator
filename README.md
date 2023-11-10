@@ -4,7 +4,7 @@
 
 You can build the emulator without toydb, so you can't `run`, but other cmds are working. If you want `run` with it, check [Run](#run). 
 
-If you want to package it, put toydb_run_engine in `src/main/resources`, and build it.
+If you want to package with toydb, put toydb_run_engine in `src/main/resources`, and build it.
 
 ```bash
 # pack without toydb
@@ -74,7 +74,7 @@ dumpcase select count(*) over w1 from t1 window w1 as (partition by id order by 
 run
 ```
 
-## CLI commands
+## Commands
 
 `#` is comment.
 
@@ -122,7 +122,7 @@ Note that if exists, the table will be replaced. Default db is `emudb`.
 
 ### `genddl <sql>`
 
-Addtable before, and want to deploy the sql, then use this to generate ddl which has the precise index.
+If you want to create table without redundant indexes, use `genddl` to generate ddl from the query sql.
 
 But the method `genDDL` in openmldb jdbc hasn't support multi db yet, so we can't use this method to parse sqls that have multi db.
 
