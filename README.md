@@ -31,7 +31,7 @@ We use openmldb-jdbc for validations, the version is:
 |--|--|
 | 1.0 | 0.8.3 |
 
-Toydb is optional, and you don't have to update the emulator. You can update it simply, just copy the newer toydb to `/tmp`.
+Toydb is optional, and you should update it manually, just copy the newer toydb to `/tmp`.
 
 ## Run
 
