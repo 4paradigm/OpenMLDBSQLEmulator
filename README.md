@@ -24,16 +24,25 @@ cd build
 make toydb_run_engine -j<thread> # minimum build
 ```
 
+## Version
+
+We use openmldb-jdbc for validations, the version is:
+|Emulator Version | OpenMLDB Version|
+|--|--|
+| 1.0 | 0.8.3 |
+
+Toydb is optional, and you don't have to update the emulator. You can update it simply, just copy the newer toydb to `/tmp`.
+
 ## Run
 
 ```bash
-java -jar emulator-1.0-SNAPSHOT.jar
+java -jar emulator-1.0.jar
 ```
 
 If emulator jar doesn't have toydb_run_engine, you can copy toydb_run_engine to `/tmp` and run emulator.
 ```bash
 cp toydb_run_engine /tmp
-java -jar emulator-1.0-SNAPSHOT.jar
+java -jar emulator-1.0.jar
 ```
 
 ## Example - validate SQL
