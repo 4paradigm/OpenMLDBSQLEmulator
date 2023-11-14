@@ -137,40 +137,40 @@ But the method `genDDL` in openmldb jdbc hasn't support multi db yet, so we can'
 
 - Example1
 ```
-t t1 a int, b int
-t t2 a int, b int
+t t1 a int, b bigint
+t t2 a int, b bigint
 genddl select *, count(b) over w1 from t1 window w1 as (partition by a order by b rows between 1 preceding and current row)
 ```
 output:
 ```
 CREATE TABLE IF NOT EXISTS t1(
 	a int,
-	b int,
+	b bigint,
 	index(key=(a), ttl=1, ttl_type=latest, ts=`b`)
 );
 CREATE TABLE IF NOT EXISTS t2(
 	a int,
-	b int
+	b bigint
 );
 ```
 No deploy about t2, so the sql that create t2 is just a simple create table. And the sql that create t1 is a create table with index.
 
 - Example2
 ```
-t t1 a int, b int
-t t2 a int, b int
+t t1 a int, b bigint
+t t2 a int, b bigint
 genddl select *, count(b) over w1 from t1 window w1 as (union t2 partition by a order by b rows_range between 1d preceding and current row)
 ```
 output:
 ```
 CREATE TABLE IF NOT EXISTS t1(
 	a int,
-	b int,
+	b bigint,
 	index(key=(a), ttl=1440m, ttl_type=absolute, ts=`b`)
 );
 CREATE TABLE IF NOT EXISTS t2(
 	a int,
-	b int,
+	b bigint,
 	index(key=(a), ttl=1440m, ttl_type=absolute, ts=`b`)
 );
 ```
