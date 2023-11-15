@@ -1,51 +1,21 @@
 # OpenMLDB SQL Emulator
 
-## Build
+## Quickstart
 
-You can build the emulator without toydb, so you can't `run`, but other cmds are working. If you want `run` with it, check [Run](#run). 
+OpenMLDB SQL Emulator is a lightweight SQL emulator for [OpenMLDB](https://github.com/4paradigm/OpenMLDB). It is hassle-free to develop and debug SQL without the OpenMLDB cluster deployment.
 
-If you want to package with toydb, put toydb_run_engine in `src/main/resources`, and build it.
+### Download and Start
 
-```bash
-# pack without toydb
-mvn package -DskipTests
-
-# pack with toydb
-cp toydb_run_engine src/main/resources
-mvn package
-```
-
-The toydb_run_engine build way is:
-```
-git clone https://github.com/4paradigm/OpenMLDB.git
-cd OpenMLDB
-make configure
-cd build
-make toydb_run_engine -j<thread> # minimum build
-```
-
-## Version
-
-We use openmldb-jdbc for validations, the version is:
-|Emulator Version | OpenMLDB Version|
-|--|--|
-| 1.0 | 0.8.3 |
-
-Toydb is optional, and you should update it manually, just copy the newer toydb to `/tmp`.
-
-## Run
+Download both `emulator-1.0.jar` and `toydb_run_engine` from [the release page](https://github.com/vagetablechicken/OpenMLDBSQLEmulator/releases), then move the file `toydb_run_engine` to the system directory `/tmp`. Now you can run start the emulator by:
 
 ```bash
 java -jar emulator-1.0.jar
 ```
 
-If emulator jar doesn't have toydb_run_engine, you can copy toydb_run_engine to `/tmp` and run emulator.
-```bash
-cp toydb_run_engine /tmp
-java -jar emulator-1.0.jar
-```
+### Example - Validate SQL
 
-## Example - validate SQL
+- Using `val` command to validate a SQL for the online batch mode
+- Using `valsql` to validate a SQL for the online request mode
 
 ```
 # creations - t/addtable: create table
@@ -61,13 +31,16 @@ val select * from t1;
 valreq select count(*) over w1 from t1 window w1 as (partition by a order by b rows between unbounded preceding and current row);
 ```
 
-## Example - run SQL
+### Example - Run SQL
 
-You should have `toydb_run_engine`, check [Run](#run). And check [run in toydb](#run-in-toydb) for more details about running SQL case.
+You can use the command `run` to execute a SQL based on data to produce results to verify the correctness. Note that `toydb_run_engine` must exist in the system directory `\tmp`.
+
 ```
 # step 1
 gencase
+
 # step 2 modify the yaml file to add table and data
+# ...
 
 # step 3 load yaml
 loadcase
@@ -83,18 +56,47 @@ dumpcase select count(*) over w1 from t1 window w1 as (partition by id order by 
 run
 ```
 
+## Build
+
+You can build the emulator without toydb, so you can't using the command `run`. Otherwise, please put toydb_run_engine in `src/main/resources`, and build it.
+
+```bash
+# pack without toydb
+mvn package -DskipTests
+
+# pack with toydb
+cp toydb_run_engine src/main/resources
+mvn package
+```
+
+The toydb_run_engine is built as:
+```
+git clone https://github.com/4paradigm/OpenMLDB.git
+cd OpenMLDB
+make configure
+cd build
+make toydb_run_engine -j<thread> # minimum build
+```
+
+## Compatible OpenMLDB Versions
+
+We use openmldb-jdbc for validations, the current compatible OpenMLDB version is:
+|Emulator Version | Compatible OpenMLDB Versions |
+|--|--|
+| 1.0 | 0.8.3 |
+
 ## Commands
 
 `#` is comment.
 
-Can't run a command in multi lines, e.g. `val select * from t1;` can't be written as
+You cannot run a command in multi lines, e.g. `val select * from t1;` , which cannot be written as
 ```
 val select *
 from
 t1;
 ```
 
-There are some quite useful builtin commands.
+There are some useful builtin commands:
 ```
 ?help to hint
 ?list to get all cmds
@@ -112,8 +114,6 @@ Extra:
 !set-display-time true/false toggles displaying of command execution time. Time is shown in milliseconds and includes only your method's physical time.
 !enable-logging filename and !disable-logging control logging, i.e. duplication of all Shell's input and output in a file.
 ```
-
-Now we have some commands:
 
 ### creations
 
