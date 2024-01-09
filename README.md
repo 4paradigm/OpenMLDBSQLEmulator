@@ -177,7 +177,7 @@ Note that if a table already exists, the creation of a new table will replace th
 - `showtables` / `st` list all tables.
 
 
-### `genddl <sql>`
+#### `genddl <sql>`
 
 If you want to create tables without redundant indexes, you can use `genddl` to generate ddl from the query SQL.
 
