@@ -253,6 +253,6 @@ t1;
 - `!set-display-time true/false` 开启/关闭命令运行时间。单位为毫秒（ms），为方法运行的物理时间。
 - `!enable-logging filename` and `!disable-logging` shell输入输出log控制。
 
-## CLI框架
+### CLI框架
 
 我们使用`cliche`作为CLI框架，详见[操作手册](https://code.google.com/archive/p/cliche/wikis/Manual.wiki) 和[source](https://github.com/budhash/cliche)。
