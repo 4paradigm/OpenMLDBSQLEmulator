@@ -3,7 +3,7 @@
 * [English Version](README.md)
 * [中文版本](README-zh.md)
 
-OpenMLDB SQL Emulator is a lightweight SQL simulator for [OpenMLDB](https://github.com/4paradigm/OpenMLDB), designed to facilitate more efficient and convenient development and debugging of OpenMLDB SQL without the cubersome deployment of a running OpenMLDB cluster.
+OpenMLDB SQL Emulator is a lightweight SQL simulator for [OpenMLDB](https://github.com/4paradigm/OpenMLDB), designed to facilitate more efficient and convenient development and debugging of OpenMLDB SQL without the cumbersome deployment of a running OpenMLDB cluster.
 
 To efficiently perform time-series feature calculations, OpenMLDB SQL has been improved and extended from standard SQL. Therefore, beginners using OpenMLDB SQL often encounter issues related to unfamiliar syntax and confusion regarding execution modes. Developing and debugging directly on an OpenMLDB cluster can lead to significant time wasted on irrelevant tasks such as deployment, index building, handling large volumes of data, and may also make it challenging to pinpoint the root cause of SQL errors.
 
@@ -74,9 +74,9 @@ dumpcase select count(*) over w1 from t1 window w1 as (partition by id order by 
 # step 6 run sql using toydb
 run
 ```
-#### Explainations
+#### Explanations
 
-**step 1:** Run command `gencase` to generate a template yaml file. Default directory is `/tmp/emu-case.yaml`.
+**step 1:** Run command `gencase` to generate a template yaml file. The default directory is `/tmp/emu-case.yaml`.
 
 Example yaml file:
 ```yaml
@@ -163,14 +163,14 @@ The Emulator employs `openmldb-jdbc` for validations. The current compatible Ope
 
 
 #### Commands for Creation
-Note that if a table already exists, the creation of new table will replace the existing table. The default database is `emudb`.
+Note that if a table already exists, the creation of a new table will replace the existing table. The default database is `emudb`.
 
 
 - `use <db>` Use a database. If it doesn't exist, it will be created.
 - `addtable <table_name> c1 t1,c2 t2, ...`  Create/replace a table in the current database.
     - abbreviate: `t <table_name> c1 t1,c2 t2, ...`
 
-- `adddbtable <db_name> <table_name> c1 t1,c2 t2, ...`  Create/replace a table in the specified database. If database doesn't exist, it will be created.
+- `adddbtable <db_name> <table_name> c1 t1,c2 t2, ...`  Create/replace a table in the specified database. If the database doesn't exist, it will be created.
     - abbreviate: `dt <table_name> c1 t1,c2 t2, ...`
 - `sql <create table sql>` Create a table by SQL.
 
@@ -181,7 +181,7 @@ Note that if a table already exists, the creation of new table will replace the 
 
 If you want to create tables without redundant indexes, you can use `genddl` to generate ddl from the query SQL.
 
-Note that method `genDDL` in openmldb jdbc does not support multiple databases yet, so we can't use this method to parse SQLs that have multiple dbs.
+Note that method `genDDL` in `openmldb-jdbc` does not support multiple databases yet, so we can't use this method to parse SQLs that have multiple dbs.
 
 - Example1
 ```
@@ -201,7 +201,7 @@ CREATE TABLE IF NOT EXISTS t2(
 	b bigint
 );
 ```
-Since the SQL doesn't involve operations on t2, the SQL that create t2 is just a simple create table, while the SQL that create t1 is a create table with index.
+Since the SQL doesn't involve operations on t2, the SQL that creates t2 is just a simple create table, while the SQL that creates t1 is a create table with an index.
 
 - Example2
 ```
@@ -222,7 +222,7 @@ CREATE TABLE IF NOT EXISTS t2(
 	index(key=(a), ttl=1440m, ttl_type=absolute, ts=`b`)
 );
 ```
-Since there's a union window, the SQLs that create t1 and t2 both have index.
+Since there's a union window, the SQLs that create t1 and t2 both have an index.
 
 #### SQL Validation Commands
 
@@ -246,7 +246,7 @@ This yaml file can also be used to reproduce errors. If you need assistance, ple
 
 #### Miscellaneous
 - `#` comment.
-- You **cannot** run a command in multi lines, e.g. `val select * from t1;` cannot be written as
+- You **cannot** run a command in multi-lines, e.g. `val select * from t1;` cannot be written as
 ```
 # wrong
 val select *
