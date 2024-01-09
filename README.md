@@ -1,4 +1,4 @@
-## OpenMLDB SQL Emulator
+# OpenMLDB SQL Emulator
 
 * [English Version](README.md)
 * [中文版本](README-zh.md)
@@ -118,7 +118,7 @@ cases:
 - You must modify the table name, table schema, and its data; these cannot be modified within the Emulator.
 - You can modify the `mode` of operation, which accepts either `batch` or `request` mode.
 - It's not necessary to fill in the SQL. You can write it into a file in the Emulator using `dumpcase <sql>`. The common practice is to first validate the SQL, then dump it into the case once the SQL passes validation. Afterwards, use the `run` command to confirm that the SQL computation aligns with expectations.
--The table's indexes don't need to be manually filled in. They can be automatically generated during `dumpcase` based on the table schema (indexes are not specific to SQL and are unrelated to SQL queries; they are only required when creating a table). If not using `dumpcase`, then manually enter at least one index. Indexes have no specific requirements. An example of manual creation:`["index1:c1:c2", ".."]`，`["index1:c1:c4:(10m,2):absorlat"]`.
+- The table's indexes don't need to be manually filled in. They can be automatically generated during `dumpcase` based on the table schema (indexes are not specific to SQL and are unrelated to SQL queries; they are only required when creating a table). If not using `dumpcase`, then manually enter at least one index. Indexes have no specific requirements. Examples of manual creation: `["index1:c1:c2", ".."]`, `["index1:c1:c4:(10m,2):absorlat"]`.
 
 **step 3:** Execute `loadcase`, and the table information from this case will be loaded into the Emulator. Confirm the successful loading of the case's table by using `st/showtables`. The displayed information should be similar to:
 ```bash
@@ -174,7 +174,7 @@ Note that if a table already exists, the creation of a new table will replace th
     - abbreviate: `dt <table_name> c1 t1,c2 t2, ...`
 - `sql <create table sql>` Create a table by SQL.
 
-- `showtables` / `st` list all tables
+- `showtables` / `st` list all tables.
 
 
 ### `genddl <sql>`
@@ -259,8 +259,8 @@ t1;
 ```
 !run-script src/test/resources/simple.emu
 ```
-- `!set-display-time true/false` toggles displaying of command execution time. Time is shown in milliseconds and is the method's physical time.
-- `!enable-logging filename` and `!disable-logging` control logging, i.e. duplication of all Shell's input and output in a file.
+- `!set-display-time true/false` toggles display of command execution time. Time is shown in milliseconds and is physical time of the method.
+- `!enable-logging filename` and `!disable-logging` control logging settings, i.e. duplication of all Shell's input and output in a file.
 
 ### CLI Framework
 
