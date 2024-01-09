@@ -69,7 +69,7 @@ dumpcase select count(*) over w1 from t1 window w1 as (partition by id order by 
 run
 ```
 
-**步骤解释**：
+#### 步骤解释
 **step 1:** 运行命令`gencase`生成一个yaml模版文件，默认创建目录为是`/tmp/emu-case.yaml`。
 
 范例yaml文件：
@@ -172,7 +172,7 @@ Emulator使用`openmldb-jdbc`进行验证，目前支持的OpenMLDB版本为：
 - `sql <create table sql>` 使用sql创建表
 - `showtables` / `st` 显示所有表
 
-### `genddl <sql>`
+#### `genddl <sql>`
 
 可以帮助用户根据SQL直接生成最佳索引的建表语句，避免冗余索引（目前仅支持单数据库）。
 
@@ -215,7 +215,7 @@ CREATE TABLE IF NOT EXISTS t2(
 	index(key=(a), ttl=1440m, ttl_type=absolute, ts=`b`)
 );
 ```
-因为SQL设计union window，t1和t2均为有索引的表格创建。
+因为SQL涉及union window，t1和t2均为有索引的表格创建。
 
 #### SQL验证命令
 
