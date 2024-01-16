@@ -1,7 +1,7 @@
 # OpenMLDB SQL Emulator
 
 * [English Version](README.md)
-* [中文版本](README-zh.md)
+* [中文版本](README_zh.md)
 
 OpenMLDB SQL Emulator is a lightweight SQL simulator for [OpenMLDB](https://github.com/4paradigm/OpenMLDB), designed to facilitate more efficient and convenient development and debugging of OpenMLDB SQL without the cumbersome deployment of a running OpenMLDB cluster.
 
