@@ -31,11 +31,14 @@ addtable t1 a int, b int64
 你可以使用`val`和`valreq`分别进行在线批模式和在线请求模式（即服务部署上线）的OpenMLDB SQL验证。例如，我们测试一个SQL是否能被`DEPLOY`上线，使用`valreq`命令：
 
 ```sql
-# table creations - t/addtable: create table
+# table 创建 - t/addtable: create table
 addtable t1 a int, b int64
+addtable t2 a int, b string
 
-# validate in online request mode
+# 在线请求模式下验证SQL
 valreq select count(*) over w1 from t1 window w1 as (partition by a order by b rows between unbounded preceding and current row);
+# SQL中存在单引号时（目前不支持双引号，只能使用单引号），请用双引号括起来，避免解析遗漏引号
+valreq "select * from t1 join t2 on t2.b='abc'"
 ```
 
 如果测试不通过，将打印SQL编译错误；通过则打印`validate * success`。整个过程在虚拟环境中，无需担心建表后的资源占用，也没有任何副作用。只要`valreq`验证通过的 SQL，则一定能在真实集群中上线。
@@ -172,7 +175,7 @@ Emulator使用`openmldb-jdbc`进行验证，目前支持的OpenMLDB版本为：
 
 #### `genddl <sql>`
 
-可以帮助用户根据SQL直接生成最佳索引的建表语句，避免冗余索引（目前仅支持单数据库）。
+可以帮助用户根据SQL直接生成最佳索引的建表语句，避免冗余索引（目前仅支持单数据库）。SQL中存在单引号时（目前不支持双引号，只能使用单引号），请用双引号括起来，避免解析遗漏引号，例如，`genddl "select * from t1 join t2 on t2.c1 == '123';"`。
 
 - 范例1
 ```
@@ -255,3 +258,14 @@ t1;
 ### CLI框架
 
 我们使用`cliche`作为CLI框架，详见[操作手册](https://code.google.com/archive/p/cliche/wikis/Manual.wiki) 和[source](https://github.com/budhash/cliche)。
+
+由于框架简单，SQL中必须存在引号时，只能使用单引号，并将整个SQL用双引号括起来。否则，解析会丢掉SQL中的双引号。
+
+### 调试
+
+使用过程中如果出现问题，可以通过`-Dlog4j.configuration=`指定`log4j.properties`，默认是WARN日志，可以改为打印INFO及以上的日志，能获取更多运行信息。
+
+在项目中测试：
+```bash
+java -jar target/emulator-1.1-SNAPSHOT.jar -Dlog4j.configuration=./src/test/resources/log4j.properties
+```

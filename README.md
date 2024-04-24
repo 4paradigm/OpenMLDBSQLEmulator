@@ -43,6 +43,9 @@ addtable t1 a int, b int64
 
 # validate in online request mode
 valreq select count(*) over w1 from t1 window w1 as (partition by a order by b rows between unbounded preceding and current row);
+
+# When there are single quotes in SQL (currently double quotes are not supported, only single quotes can be used), please enclose them in double quotes to avoid parsing missing quotes.
+valreq "select * from t1 join t2 on t2.b='abc'"
 ```
 If the test fails, it will print the SQL compilation error. If it passes, it will print `validate * success`. The entire process takes place in a virtual environment, without concerns about resource usage after table creation or any side effects. Any SQL that passes validation through `valreq` will definitely be deployable in a real cluster.
 
@@ -181,7 +184,7 @@ Note that if a table already exists, the creation of a new table will replace th
 
 If you want to create tables without redundant indexes, you can use `genddl` to generate ddl from the query SQL.
 
-Note that method `genDDL` in `openmldb-jdbc` does not support multiple databases yet, so we can't use this method to parse SQLs that have multiple dbs.
+Note that the `genDDL` method in `openmldb-jdbc` does not yet support multiple databases. Therefore, we cannot use this method to parse SQL statements that involve multiple databases. When there are single quotes in the SQL (double quotes are not supported at the moment, only single quotes), please enclose the SQL in double quotes to avoid missing quotes during parsing. For example, use `genddl "select * from t1 join t2 on t2.c1 == '123';"`.
 
 - Example1
 ```
@@ -265,3 +268,14 @@ t1;
 ### CLI Framework
 
 We use `cliche` for the CLI interface. See [Manual](https://code.google.com/archive/p/cliche/wikis/Manual.wiki) and [source](https://github.com/budhash/cliche).
+
+Due to the simplicity of the framework, when quotation marks are required in the SQL, only single quotation marks can be used, and the entire SQL must be enclosed in double quotation marks. Otherwise, the parsing will discard the double quotation marks in the SQL.
+
+### Debugging
+
+If you encounter any issues during usage, you can specify `log4j.properties` using `-Dlog4j.configuration=`. By default, the log level is set to WARN, but you can change it to print INFO and above logs to obtain more runtime information.
+
+To test in the project:
+```bash
+java -jar target/emulator-1.1-SNAPSHOT.jar -Dlog4j.configuration=./src/test/resources/log4j.properties
+```

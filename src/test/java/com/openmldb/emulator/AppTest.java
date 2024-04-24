@@ -1,6 +1,5 @@
 package com.openmldb.emulator;
 
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
@@ -12,10 +11,6 @@ import org.junit.Test;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharSource;
-import com.google.common.io.CharStreams;
-import com.google.common.io.Resources;
-import com.openmldb.emulator.App;
-
 import asg.cliche.CLIException;
 import asg.cliche.Shell;
 import asg.cliche.ShellFactory;
@@ -78,5 +73,15 @@ public class AppTest {
     public void testYamlCases() throws SQLException, IOException {
         App app = new App();
         app.run(com.google.common.io.Resources.getResource("case.yaml").getFile());
+    }
+
+    @Test
+    public void testGenddl() throws SQLException {
+        App app = new App();
+        app.addtable("t1", "c1 int, c2 string, c3 string, c4 string");
+        app.addtable("t2", "c1 int, c2 string, c3 string, c4 string");
+        app.genddl("select * from t1 last join t2 t22 on t1.c1=t22.c1 and t1.c2=t22.c2 and t1.c3=t22.c3 and t22.c4='abc'");
+        app.genddl("select * from t1 last join t2 t22 on t1.c1=t22.c1 and t1.c2=t22.c2 and t1.c3=t22.c3 and t22.c4=abc");
+
     }
 }

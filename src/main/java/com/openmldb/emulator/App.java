@@ -227,6 +227,7 @@ public class App {
     public void genddl(@Param(name = "sql", description = "deployment sql") String... sqlParts)
             throws SQLException {
         String sql = Joiner.on(" ").join(sqlParts);
+        log.info("gen ddl: {}", sql);
         List<String> ddl = SqlClusterExecutor.genDDL(sql, schemaMap);
         System.out.println(Joiner.on("\n").join(ddl));
     }
